@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %} Location {% endblock %}
+
+{% block content %}
+<p> Name: {{name}}</p>
+<p> Type: {{type}}</p>
+<p> Dimension: {{dimension}}</p>
+
+<table>
+        <thead>
+            <tr>
+                <th> Residents </th>
+            </tr>
+        </thead>
+        <tbody>
+                {% for r in residents %}
+                <tr>
+                        <td> <a href ="{% url 'specific_character' r.id %}" > {{r.name}} </a> </td>
+                </tr>
+                {% endfor %}
+        </tbody>
+</table>
+
+{% endblock %}

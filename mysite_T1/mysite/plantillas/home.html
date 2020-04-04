@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %} Capítulos {% endblock %}
+
+{% block content %}
+<table>
+        <thead>
+            <tr>
+                <th> Codigo </th>
+                <th> Nombre </th>
+                <th> Fecha </th>
+            </tr>
+        </thead>
+        <tbody>
+                {% for e in lista_epis %}
+                <tr>
+                        <td> {{e.code}} </td>
+                        <td> <a href ="{% url 'episodio_selec' e.id %}" > {{e.name}} </a> </td>
+                        <td> {{e.date}} </td>
+                </tr>
+                {% endfor %}
+        </tbody>
+</table>
+
+{% endblock %}
