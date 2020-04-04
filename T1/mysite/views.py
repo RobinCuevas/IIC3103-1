@@ -6,6 +6,8 @@ from django.template.loader import get_template
 from django.core.paginator import Paginator
 from django.shortcuts import render
 
+# reference : https://www.youtube.com/watch?v=2TseIMieHPQ
+
 r = requests.get('https://rickandmortyapi.com/api/episode/')
 json_body = r.json()
 lista_episodios = []
