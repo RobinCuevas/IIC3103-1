@@ -6,74 +6,82 @@ from django.template.loader import get_template
 from django.core.paginator import Paginator
 from django.shortcuts import render
 
-# reference : https://www.youtube.com/watch?v=2TseIMieHPQ
+# reference : https://www.youtube.com/watch?v=2TseIMieHPQ used to create the search bar
 
-r = requests.get('https://rickandmortyapi.com/api/episode/')
-json_body = r.json()
-lista_episodios = []
+### API CONSULTING FUNCTIONS #######
+def search_all_episodes():
+    r = requests.get('https://rickandmortyapi.com/api/episode/')
+    json_body = r.json()
+    lista_episodios = []
 
-for episode in json_body["results"]:
-    id_ = episode["id"]
-    name = episode["name"]
-    air_date = episode["air_date"]
-    codigo = episode["episode"]
+    for episode in json_body["results"]:
+        id_ = episode["id"]
+        name = episode["name"]
+        air_date = episode["air_date"]
+        codigo = episode["episode"]
 
-    dicc = {"code" : codigo, "date" : air_date, "name" : name, "id": id_}
-    #lista_episodios.append(Episodio(name,air_date,codigo))
-    lista_episodios.append(dicc)
-for aux in range(21,32):
-    num_ = str(aux)
-    url = 'https://rickandmortyapi.com/api/episode/' + num_
-    req = requests.get(url)
-    json_body = req.json()
-    id_ = json_body["id"]
-    name = json_body["name"]
-    air_date = json_body["air_date"]
-    codigo = json_body["episode"]
-    dicc = {"code" : codigo, "date" : air_date, "name": name, "id": id_}
-    lista_episodios.append(dicc)
-
- ##################################### Locations ##########################################
-
-rl = requests.get('https://rickandmortyapi.com/api/location/')
-json_body = rl.json()
-lista_locations = []
-all_locations = json_body["info"]["pages"]
-counter = 1
-while counter <= all_locations:
-    rl = requests.get("https://rickandmortyapi.com/api/location/?page=" + str(counter))
-    json_body2 = rl.json()
-    for place in json_body2["results"]:
-        id_ = place["id"]
-        name = place["name"]
-        dicc = {"name" : name, "id": id_}
+        dicc = {"code" : codigo, "date" : air_date, "name" : name, "id": id_}
         #lista_episodios.append(Episodio(name,air_date,codigo))
-        lista_locations.append(dicc)
-    counter += 1
+        lista_episodios.append(dicc)
+    for aux in range(21,32):
+        num_ = str(aux)
+        url = 'https://rickandmortyapi.com/api/episode/' + num_
+        req = requests.get(url)
+        json_body = req.json()
+        id_ = json_body["id"]
+        name = json_body["name"]
+        air_date = json_body["air_date"]
+        codigo = json_body["episode"]
+        dicc = {"code" : codigo, "date" : air_date, "name": name, "id": id_}
+        lista_episodios.append(dicc)
+    return lista_episodios
 
- ##################################### Characters ##########################################
+    ##################################### Locations ##########################################
+def search_all_locations():
+    rl = requests.get('https://rickandmortyapi.com/api/location/')
+    json_body = rl.json()
+    lista_locations = []
+    all_locations = json_body["info"]["pages"]
+    counter = 1
+    while counter <= all_locations:
+        rl = requests.get("https://rickandmortyapi.com/api/location/?page=" + str(counter))
+        json_body2 = rl.json()
+        for place in json_body2["results"]:
+            id_ = place["id"]
+            name = place["name"]
+            dicc = {"name" : name, "id": id_}
+            #lista_episodios.append(Episodio(name,air_date,codigo))
+            lista_locations.append(dicc)
+        counter += 1
+    return lista_locations
 
-rc = requests.get('https://rickandmortyapi.com/api/character/')
-json_body = rc.json()
-lista_characters = []
-all_characters = json_body["info"]["pages"]
-counter = 1
-while counter <= all_characters:
-    rl = requests.get("https://rickandmortyapi.com/api/character/?page=" + str(counter))
-    json_body2 = rl.json()
-    for charac in json_body2["results"]:
-        id_ = charac["id"]
-        name = charac["name"]
-        dicc = {"name" : name, "id": id_}
-        #lista_episodios.append(Episodio(name,air_date,codigo))
-        lista_characters.append(dicc)
-    counter += 1
+    ##################################### Characters ##########################################
+def search_all_characters():
+    rc = requests.get('https://rickandmortyapi.com/api/character/')
+    json_body = rc.json()
+    lista_characters = []
+    all_characters = json_body["info"]["pages"]
+    counter = 1
+    while counter <= all_characters:
+        rl = requests.get("https://rickandmortyapi.com/api/character/?page=" + str(counter))
+        json_body2 = rl.json()
+        for charac in json_body2["results"]:
+            id_ = charac["id"]
+            name = charac["name"]
+            dicc = {"name" : name, "id": id_}
+            #lista_episodios.append(Episodio(name,air_date,codigo))
+            lista_characters.append(dicc)
+        counter += 1
+    return lista_characters
+### API CONSULTING FUNCTIONS #######
 
-
+#### VIEWS ###########
 def vista_principal(request):
-    global lista_episodios,lista_locations, lista_characters
+    lista_episodios = search_all_episodes()
     order = request.GET.get("search")
     if order:
+        lista_characters = search_all_characters()
+        lista_locations = search_all_locations()
         order = str(order).lower()
         episodes_results = [chap for chap in lista_episodios if order in chap["name"].lower()]
         characters_results = [charac for charac in lista_characters if order in charac["name"].lower()]
@@ -89,6 +97,9 @@ def vista_principal(request):
 def episodio_selec(request, id):
     order = request.GET.get("search")
     if order:
+        lista_episodios = search_all_episodes()
+        lista_characters = search_all_characters()
+        lista_locations = search_all_locations()
         order = str(order).lower()
         episodes_results = [chap for chap in lista_episodios if order in chap["name"].lower()]
         characters_results = [charac for charac in lista_characters if order in charac["name"].lower()]
@@ -114,6 +125,9 @@ def episodio_selec(request, id):
 def specific_character(request, id):
     order = request.GET.get("search")
     if order:
+        lista_episodios = search_all_episodes()
+        lista_characters = search_all_characters()
+        lista_locations = search_all_locations()
         order = str(order).lower()
         episodes_results = [chap for chap in lista_episodios if order in chap["name"].lower()]
         characters_results = [charac for charac in lista_characters if order in charac["name"].lower()]
@@ -152,6 +166,9 @@ def specific_character(request, id):
 def location(request, id):
     order = request.GET.get("search")
     if order:
+        lista_episodios = search_all_episodes()
+        lista_characters = search_all_characters()
+        lista_locations = search_all_locations()
         order = str(order).lower()
         episodes_results = [chap for chap in lista_episodios if order in chap["name"].lower()]
         characters_results = [charac for charac in lista_characters if order in charac["name"].lower()]
