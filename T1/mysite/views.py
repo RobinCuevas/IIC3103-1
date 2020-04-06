@@ -10,7 +10,7 @@ from django.shortcuts import render
 
 ### API CONSULTING FUNCTIONS #######
 def search_all_episodes():
-    r = requests.get('https://rickandmortyapi.com/api/episode/')
+    r = requests.get('https://integracion-rick-morty-api.herokuapp.com/api/episode/')
     json_body = r.json()
     lista_episodios = []
 
@@ -25,7 +25,7 @@ def search_all_episodes():
         lista_episodios.append(dicc)
     for aux in range(21,32):
         num_ = str(aux)
-        url = 'https://rickandmortyapi.com/api/episode/' + num_
+        url = 'https://integracion-rick-morty-api.herokuapp.com/api/episode/' + num_
         req = requests.get(url)
         json_body = req.json()
         id_ = json_body["id"]
@@ -38,13 +38,13 @@ def search_all_episodes():
 
     ##################################### Locations ##########################################
 def search_all_locations():
-    rl = requests.get('https://rickandmortyapi.com/api/location/')
+    rl = requests.get('https://integracion-rick-morty-api.herokuapp.com/api/location/')
     json_body = rl.json()
     lista_locations = []
     all_locations = json_body["info"]["pages"]
     counter = 1
     while counter <= all_locations:
-        rl = requests.get("https://rickandmortyapi.com/api/location/?page=" + str(counter))
+        rl = requests.get("https://integracion-rick-morty-api.herokuapp.com/api/location/?page=" + str(counter))
         json_body2 = rl.json()
         for place in json_body2["results"]:
             id_ = place["id"]
@@ -57,13 +57,13 @@ def search_all_locations():
 
     ##################################### Characters ##########################################
 def search_all_characters():
-    rc = requests.get('https://rickandmortyapi.com/api/character/')
+    rc = requests.get('https://integracion-rick-morty-api.herokuapp.com/api/character/')
     json_body = rc.json()
     lista_characters = []
     all_characters = json_body["info"]["pages"]
     counter = 1
     while counter <= all_characters:
-        rl = requests.get("https://rickandmortyapi.com/api/character/?page=" + str(counter))
+        rl = requests.get("https://integracion-rick-morty-api.herokuapp.com/api/character/?page=" + str(counter))
         json_body2 = rl.json()
         for charac in json_body2["results"]:
             id_ = charac["id"]
@@ -107,7 +107,7 @@ def episodio_selec(request, id):
         return render(request, "show_results.html", {"episodes_results":episodes_results,
         "characters_results":characters_results,"location_results":location_results})
 
-    r = requests.get('https://rickandmortyapi.com/api/episode/' + id)
+    r = requests.get('https://integracion-rick-morty-api.herokuapp.com/api/episode/' + id)
     json_body = r.json()
     name = json_body["name"]
     air_date = json_body["air_date"]
@@ -135,7 +135,7 @@ def specific_character(request, id):
         return render(request, "show_results.html", {"episodes_results":episodes_results,
         "characters_results":characters_results,"location_results":location_results})
 
-    r = requests.get('https://rickandmortyapi.com/api/character/' + id)
+    r = requests.get('https://integracion-rick-morty-api.herokuapp.com/api/character/' + id)
     json_body = r.json()
     dicc = {"name":json_body["name"], "status":json_body["status"], "species": json_body["species"], "type": json_body["type"],
      "gender": json_body["gender"], "origin" : json_body["origin"], "image":json_body["image"]}
@@ -176,7 +176,7 @@ def location(request, id):
         return render(request, "show_results.html", {"episodes_results":episodes_results,
         "characters_results":characters_results,"location_results":location_results})
         
-    r = requests.get('https://rickandmortyapi.com/api/location/' + id)
+    r = requests.get('https://integracion-rick-morty-api.herokuapp.com/api/location/' + id)
     json_body = r.json()
     dicc = {"name":json_body["name"], "type": json_body["type"], "dimension": json_body["dimension"]}
     residents_names = []
