@@ -5,6 +5,6 @@ urlpatterns = [
     path('hamburguesa/', HamburguesaViewSet.as_view()),
     path('hamburguesa/<int:id>', HamburguesaDetails.as_view()),
     path('ingrediente/', IngredienteViewSet.as_view()),
-    path('ingrediente/<int:id>', IngredienteDetails.as_view()),
+    path('ingrediente/<int:id>', IngredienteDetails.as_view(),name="ingrediente-details"),
     path('hamburguesa/<int:id>/ingrediente/<int:ide>', HamburguesaIngrediente.as_view()),
 ]

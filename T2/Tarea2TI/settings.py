@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -27,6 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+SECURE_SSL_REDIRECT = False
 
 # Application definition
 
@@ -77,8 +79,12 @@ WSGI_APPLICATION = 'Tarea2TI.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'defa0gol4877vv',
+        'USER': 'qlgirokrsjvioc',
+        'PASSWORD': 'f4518f61662fc6c71beaec169f092b26789020d6b7488bdf664609b38de5cce5',
+        'HOST': 'ec2-18-215-99-63.compute-1.amazonaws.com',
+        'PORT': '5432',
     }
 }
 
@@ -119,3 +125,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+django_heroku.settings(locals())

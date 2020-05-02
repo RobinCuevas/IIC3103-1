@@ -111,8 +111,14 @@ class IngredienteDetails(APIView):
 # falta 404 y 409 ingrediente no se puede borrar, está presente en una hamburguesa
     def delete(self,request,id):
         ingrediente = self.get_object(id)
-        ingrediente.delete()
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        try:
+            related = ingrediente.hamburguesa_set.all()
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        if len(related) <= 1:
+            ingrediente.delete()
+            return Response(status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_409_CONFLICT)
 
 
 class HamburguesaIngrediente(APIView):
