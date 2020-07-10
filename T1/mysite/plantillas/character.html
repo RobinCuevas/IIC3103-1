@@ -9,7 +9,7 @@
 <p> Species: {{species}}</p>
 <p> Type: {{type}}</p>
 <p> Gender: {{gender}}</p>
-<p> Origin: {{origin.name}}</p>
+<p> Origin: <a href ="{% url 'location' origin.id%}" > {{origin.name}} </a> </td></p>
 <p> Location: <a href ="{% url 'location' location.id %}" > {{location.name}} </a> </td></p>
 
 <table>
