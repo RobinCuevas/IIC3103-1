@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %} Chapter {% endblock %}
+
+{% block content %}
+<table>
+    <thead>
+        <tr>
+            <th> Chapter Name </th>
+            <th> Air Date </th>
+            <th> Chapter Details </th>
+        </tr>
+    </thead>
+    <tbody>
+            <tr>
+                    <td> {{episode_name}} </td>
+                    <td> {{air_date}} </td>
+                    <td> {{episode}} </td>
+            </tr>
+    </tbody>
+</table>
+
+<table>
+        <thead>
+            <tr>
+                <th> Characters in the Chapter </th>
+            </tr>
+        </thead>
+        <tbody>
+                {% for c in characters %}
+                <tr>
+                        <td> <a href ="{% url 'specific_character' c.id %}" > {{c.name}} </a> </td>
+                </tr>
+                {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
