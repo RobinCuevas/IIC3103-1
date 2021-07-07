@@ -1,4 +1,4 @@
-# IIC3103-1
+# IIC3103-1   Taller de Integracion
 
 La tarea 2 consistía en crear una API a consumir, modelando Hamburguesas e Ingredientes. El código está en la carpeta T2 y la aplicación, subida por heroku, está disponible en: https://tarea02taller.herokuapp.com/hamburguesa/
 
